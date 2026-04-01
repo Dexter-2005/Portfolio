@@ -2,10 +2,7 @@ import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 import { PORTFOLIO_DATA, CLAUDE_SYSTEM_PROMPT } from '@/lib/data';
 
-// Initialize the Google Generative AI
-// Notice that the API key should be provided via process.env.GEMINI_API_KEY
-const apiKey = process.env.GEMINI_API_KEY || "AIzaSyDoI8oHnzMBn6qwyNg2i5ZgRWHs5Lz0kEk";
-const genAI = new GoogleGenerativeAI(apiKey);
+// Initialize the Google Generative AI — key loaded per-request to support hot env reloads
 
 export async function POST(req: Request) {
   try {
@@ -15,6 +12,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       // Fallback message if API key is not present
       return NextResponse.json({
@@ -22,9 +20,11 @@ export async function POST(req: Request) {
       });
     }
 
+    const genAI = new GoogleGenerativeAI(apiKey);
+
     // Use gemini-2.5-flash for fast chat responses
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       safetySettings: [
         {
           category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -66,8 +66,21 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error("Chat API error:", error);
+    
+    // Extract a more helpful error message if it's from Google Generative AI
+    let errorMessage = "Error processing your request. Please try again.";
+    if (error.message) {
+        if (error.message.includes("429") || error.message.includes("Too Many Requests") || error.status === 429) {
+             errorMessage = "API Rate Limit Exceeded or API Key Quota Exhausted. If you are on Vercel, please make sure you added the GEMINI_API_KEY environment variable. If you are using a free API key, you may need to wait or use a different key.";
+        } else if (error.message.includes("404") || error.message.includes("Not Found")) {
+             errorMessage = `Model not found or API Key not authorized for this model. Error: ${error.message}`;
+        } else {
+             errorMessage = error.message;
+        }
+    }
+
     return NextResponse.json(
-      { error: "Error processing your request. Please try again." },
+      { error: errorMessage },
       { status: 500 }
     );
   }
