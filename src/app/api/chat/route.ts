@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     // Use gemini-2.5-flash for fast chat responses
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       safetySettings: [
         {
           category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -50,17 +50,9 @@ export async function POST(req: Request) {
 
     let responseText = "";
     
-    // Add retry logic to handle intermittent 503 overloads or safety flags
-    for (let attempts = 0; attempts < 3; attempts++) {
-      try {
-        const result = await model.generateContent(prompt);
-        responseText = result.response.text();
-        break; // Break loop if successful
-      } catch (err: any) {
-        if (attempts === 2) throw err; // If last attempt fails, throw the error
-        await new Promise(resolve => setTimeout(resolve, 1500)); // wait 1.5s
-      }
-    }
+    // Perform generation without aggressive retries to prevent permanent rate-limiting
+    const result = await model.generateContent(prompt);
+    responseText = result.response.text();
 
     return NextResponse.json({ response: responseText });
 
@@ -71,7 +63,7 @@ export async function POST(req: Request) {
     let errorMessage = "Error processing your request. Please try again.";
     if (error.message) {
         if (error.message.includes("429") || error.message.includes("Too Many Requests") || error.status === 429) {
-             errorMessage = "API Rate Limit Exceeded or API Key Quota Exhausted. If you are on Vercel, please make sure you added the GEMINI_API_KEY environment variable. If you are using a free API key, you may need to wait or use a different key.";
+             errorMessage = "API Rate Limit Exceeded (Google allows 15 questions per minute). STOP clicking Ask for 60 seconds — waiting will reset the quota. Also check if you have the correct key deployed to Vercel.";
         } else if (error.message.includes("404") || error.message.includes("Not Found")) {
              errorMessage = `Model not found or API Key not authorized for this model. Error: ${error.message}`;
         } else {
