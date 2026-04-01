@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Himanshu Chaudhary | Developer Portfolio
 
-## Getting Started
+A high-performance, interactive 3D portfolio website built for a Competitive Programmer and Full-Stack Developer. Features a custom WebGL background, dynamic Framer Motion animations, competitive programming statistics visualizers, and a **custom built-in AI Assistant** powered by Gemini.
 
-First, run the development server:
+![Portfolio Preview](./public/favicon.ico)
 
+## 🚀 Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router, React 19)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **3D Graphics:** [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/) & [Drei](https://github.com/pmndrs/drei)
+- **AI Integration:** [Google Generative AI SDK](https://ai.google.dev/) (Gemini 2.5 Flash)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Typography:** JetBrains Mono (Terminal elements), Syne (Display headings), DM Sans (Body)
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- A Gemini API Key (save as `GEMINI_API_KEY` in `.env.local` for the AI assistant)
+
+### Installation
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Dexter-2005/Portfolio.git
+cd Portfolio
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## 📂 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/`: Next.js App Router endpoints, including the `/api/chat` backend route.
+- `src/components/`: Reusable UI components, Sections, and 3D Scene components.
+- `src/lib/`: Utility functions, animation variants, and the **single source of truth for all data** (`data.ts`).
+- `src/hooks/`: Custom React hooks (e.g., `useCountUp` for number animations).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Updating Content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All personal data, projects, stats, AI system prompts, and text content are centralized in **`src/lib/data.ts`**. 
+To update the portfolio (e.g., updating Codeforces rating, adding a new project), simply edit this one object—no component changes required!
 
-## Deploy on Vercel
+## 🌐 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is optimized for deployment on Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
