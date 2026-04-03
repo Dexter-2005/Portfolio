@@ -9,6 +9,9 @@ import { PORTFOLIO_DATA } from "@/lib/data";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
 
+import useCodeforcesData from "@/hooks/useCodeforcesData";
+
+
 interface StatCellProps {
   value: string;
   label: string;
@@ -59,54 +62,55 @@ function StatCell({ value, label, sublabel, color, numericTarget, isInView }: St
   );
 }
 
-const STATS = [
-  {
-    value: "1257",
-    label: "CF Rating",
-    sublabel: "Pupil Rank",
-    color: "var(--accent-blue)",
-    numericTarget: 1257,
-  },
-  {
-    value: "272",
-    label: "Problems Solved",
-    sublabel: "Codeforces",
-    color: "var(--accent-primary)",
-    numericTarget: 272,
-  },
-  {
-    value: "4/187",
-    label: "Dept Rank",
-    sublabel: "ECE Batch",
-    color: "var(--accent-gold)",
-    numericTarget: 4,
-  },
-  {
-    value: "8.48",
-    label: "CGPA",
-    sublabel: "LNMIIT Jaipur",
-    color: "var(--accent-primary)",
-    numericTarget: undefined,
-  },
-  {
-    value: "ACM",
-    label: "Member",
-    sublabel: "Problem Setter",
-    color: "var(--accent-secondary)",
-    numericTarget: undefined,
-  },
-  {
-    value: "20+",
-    label: "Contests",
-    sublabel: "Problems Set",
-    color: "var(--accent-blue)",
-    numericTarget: 20,
-  },
-];
-
 export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data: cfData } = useCodeforcesData();
+
+  const STATS = [
+    {
+      value: (cfData?.rating || PORTFOLIO_DATA.cp.cfRating).toString(),
+      label: "CF Rating",
+      sublabel: `${cfData?.rank || PORTFOLIO_DATA.cp.cfRank} Rank`,
+      color: "var(--accent-blue)",
+      numericTarget: cfData?.rating || PORTFOLIO_DATA.cp.cfRating,
+    },
+    {
+      value: `${cfData?.totalProblemsSolved || PORTFOLIO_DATA.cp.totalProblems}+`,
+      label: "Problems Solved",
+      sublabel: "Codeforces",
+      color: "var(--accent-primary)",
+      numericTarget: cfData?.totalProblemsSolved || PORTFOLIO_DATA.cp.totalProblems,
+    },
+    {
+      value: "4/187",
+      label: "Dept Rank",
+      sublabel: "ECE Batch",
+      color: "var(--accent-gold)",
+      numericTarget: 4,
+    },
+    {
+      value: "8.48",
+      label: "CGPA",
+      sublabel: "LNMIIT Jaipur",
+      color: "var(--accent-primary)",
+      numericTarget: undefined,
+    },
+    {
+      value: "ACM",
+      label: "Member",
+      sublabel: "Problem Setter",
+      color: "var(--accent-secondary)",
+      numericTarget: undefined,
+    },
+    {
+      value: "20+",
+      label: "Contests",
+      sublabel: "Problems Set",
+      color: "var(--accent-blue)",
+      numericTarget: 20,
+    },
+  ];
 
   return (
     <section
@@ -185,7 +189,7 @@ export default function About() {
                 {/* Try to load actual photo, fallback to gradient */}
                 <img
                   src="/himanshu.jpg"
-                  alt="Himanshu Repswal"
+                  alt="Himanshu Chaudhary"
                   className="w-full h-full object-cover"
                   style={{ filter: "contrast(1.05) saturate(1.1)" }}
                   onError={(e) => {

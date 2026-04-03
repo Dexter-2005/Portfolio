@@ -346,7 +346,7 @@ export default function Contact() {
             className="text-xs mt-1"
             style={{ fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}
           >
-            © {new Date().getFullYear()} Himanshu Repswal. All rights reserved.
+            © {new Date().getFullYear()} Himanshu Chaudhary. All rights reserved.
           </p>
         </motion.div>
       </div>

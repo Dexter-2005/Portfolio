@@ -37,7 +37,7 @@ export interface TopicChip {
 
 export const PORTFOLIO_DATA = {
   personal: {
-    name: "Himanshu Repswal",
+    name: "Himanshu Chaudhary",
     email: "24uec253@lnmiit.ac.in",
     phone: "+91 7891723405",
     location: "Jaipur, India",
@@ -54,12 +54,12 @@ export const PORTFOLIO_DATA = {
     cfRank: "Pupil",
     cfGlobalRank: 3692,
     cfContest: "Round 1063 (Div. 2)",
-    totalProblems: 272,
+    totalProblems: 400,
     platforms: ["Codeforces"],
     peakRatingDate: "2025",
     currentStreak: 7,
     longestStreak: 28,
-    activeDays: 272,
+    activeDays: 400,
     contestsEntered: 20,
     problemsSet: 20,
     studentsmentored: 100,
@@ -142,8 +142,8 @@ export const PORTFOLIO_DATA = {
     },
     {
       title: "Problem Solving",
-      metric: "272",
-      numericValue: 272,
+      metric: "400+",
+      numericValue: 400,
       description: "Problems Solved on Codeforces",
       subtext: "56 in the last month · 28-day max streak",
       color: "var(--accent-primary)",

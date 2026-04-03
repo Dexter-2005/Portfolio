@@ -2,6 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
+import { RefreshCw } from "lucide-react";
 import GlowCard from "@/components/ui/GlowCard";
 import VerdictBadge from "@/components/ui/VerdictBadge";
 import TerminalText from "@/components/ui/TerminalText";
@@ -12,7 +13,17 @@ import useCodeforcesData from "@/hooks/useCodeforcesData";
 
 
 /* ===================== 6A: RATING CARD ===================== */
-function RatingCard({ isInView, cfData }: { isInView: boolean; cfData: any }) {
+function RatingCard({ 
+  isInView, 
+  cfData, 
+  onRefresh, 
+  isLoading 
+}: { 
+  isInView: boolean; 
+  cfData: any; 
+  onRefresh: () => void;
+  isLoading: boolean;
+}) {
   const rating = cfData?.rating || PORTFOLIO_DATA.cp.cfRating;
   const maxRating = cfData?.maxRating || PORTFOLIO_DATA.cp.cfRating;
   const maxRank = cfData?.maxRank || PORTFOLIO_DATA.cp.cfRank;
@@ -24,17 +35,39 @@ function RatingCard({ isInView, cfData }: { isInView: boolean; cfData: any }) {
     <motion.div variants={fadeUp}>
       <GlowCard glowColor="var(--accent-blue)" className="overflow-hidden">
         {/* Header */}
-        <div className="mb-6">
-          <h3
-            className="text-xl md:text-2xl font-bold tracking-wider mb-1"
-            style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}
+        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h3
+              className="text-xl md:text-2xl font-bold tracking-wider mb-1"
+              style={{ fontFamily: "var(--font-display)", color: "var(--text-primary)" }}
+            >
+              COMPETITIVE PROGRAMMING
+              <span className="animate-blink ml-1" style={{ color: "var(--accent-primary)" }}>_</span>
+            </h3>
+            <p className="text-sm" style={{ fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>
+              {"// ranked among the best problem solvers"}
+            </p>
+          </div>
+
+          {/* Refresh Button */}
+          <button
+            onClick={onRefresh}
+            disabled={isLoading}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 group self-start md:self-center"
+            style={{
+              fontFamily: "var(--font-mono)",
+              backgroundColor: "rgba(0, 255, 136, 0.05)",
+              border: "1px solid rgba(0, 255, 136, 0.2)",
+              color: "var(--accent-primary)",
+              boxShadow: "0 0 15px rgba(0, 255, 136, 0.05)",
+            }}
           >
-            COMPETITIVE PROGRAMMING
-            <span className="animate-blink ml-1" style={{ color: "var(--accent-primary)" }}>_</span>
-          </h3>
-          <p className="text-sm" style={{ fontFamily: "var(--font-mono)", color: "var(--text-muted)" }}>
-            {"// ranked among the best problem solvers"}
-          </p>
+            <RefreshCw 
+              size={14} 
+              className={`${isLoading ? "animate-spin" : "group-hover:rotate-180"} transition-transform duration-500`} 
+            />
+            <span>{isLoading ? "FETCHING_DATA..." : "REFRESH_STATS"}</span>
+          </button>
         </div>
 
         <div className="flex flex-col lg:flex-row items-center gap-8">
@@ -447,7 +480,7 @@ function TerminalExperience({ isInView }: { isInView: boolean }) {
 export default function CPStats() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { data: cfData } = useCodeforcesData();
+  const { data: cfData, refresh, isLoading } = useCodeforcesData();
 
   return (
     <section
@@ -463,7 +496,12 @@ export default function CPStats() {
           variants={staggerContainer}
           className="space-y-8"
         >
-          <RatingCard isInView={isInView} cfData={cfData} />
+          <RatingCard 
+            isInView={isInView} 
+            cfData={cfData} 
+            onRefresh={refresh} 
+            isLoading={isLoading} 
+          />
           <MiniHeatmap isInView={isInView} cfData={cfData} />
           <DifficultyBar isInView={isInView} />
           <TopicGrid isInView={isInView} />

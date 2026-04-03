@@ -137,7 +137,7 @@ export default function Achievements() {
       };
       data[1] = {
         ...data[1],
-        metric: cfData.totalProblemsSolved.toString(),
+        metric: `${cfData.totalProblemsSolved}+`,
         numericValue: cfData.totalProblemsSolved,
       };
     }

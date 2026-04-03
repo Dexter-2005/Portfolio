@@ -53,7 +53,7 @@ export default function Navbar() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          H.REPSWAL
+          H.CHAUDHARY
           <span className="animate-blink" style={{ color: "var(--accent-primary)" }}>
             _
           </span>

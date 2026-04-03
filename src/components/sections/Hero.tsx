@@ -4,6 +4,8 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import TerminalText from "@/components/ui/TerminalText";
 import RatingBadge from "@/components/ui/RatingBadge";
+import useCodeforcesData from "@/hooks/useCodeforcesData";
+import { PORTFOLIO_DATA } from "@/lib/data";
 
 const ThreeScene = lazy(() => import("@/components/Scene/ThreeScene"));
 
@@ -12,6 +14,7 @@ export default function Hero() {
   const [showBadges, setShowBadges] = useState(false);
   const [showScroll, setShowScroll] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { data: cfData } = useCodeforcesData();
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -109,8 +112,8 @@ export default function Hero() {
             >
               <RatingBadge
                 platform="Codeforces"
-                rating="1257 Pupil"
-                rank="400+ Solved"
+                rating={`${cfData?.rating || PORTFOLIO_DATA.cp.cfRating} ${cfData?.rank || PORTFOLIO_DATA.cp.cfRank}`}
+                rank={`${cfData?.totalProblemsSolved || PORTFOLIO_DATA.cp.totalProblems}+ Solved`}
                 color="var(--accent-blue)"
               />
             </motion.div>

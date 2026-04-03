@@ -24,22 +24,22 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Himanshu Repswal — Competitive Programmer & Full-Stack Developer",
+  title: "Himanshu Chaudhary — Competitive Programmer & Full-Stack Developer",
   description:
-    "Portfolio of Himanshu Repswal — Codeforces Pupil (1257), ACM Problem Setter, Full-Stack Developer. 272 problems solved on Codeforces. ECE @ LNMIIT Jaipur.",
+    "Portfolio of Himanshu Chaudhary — Codeforces Pupil (1257), ACM Problem Setter, Full-Stack Developer. 400+ problems solved on Codeforces. ECE @ LNMIIT Jaipur.",
   keywords: [
-    "Himanshu Repswal",
+    "Himanshu Chaudhary",
     "competitive programming",
     "codeforces",
     "portfolio",
     "full-stack developer",
     "LNMIIT",
   ],
-  authors: [{ name: "Himanshu Repswal" }],
+  authors: [{ name: "Himanshu Chaudhary" }],
   openGraph: {
-    title: "Himanshu Repswal — Competitive Programmer & Full-Stack Developer",
+    title: "Himanshu Chaudhary — Competitive Programmer & Full-Stack Developer",
     description:
-      "CF Pupil (1257) · 272 Problems Solved · ACM Problem Setter · Full-Stack Dev",
+      "CF Pupil (1257) · 400+ Problems Solved · ACM Problem Setter · Full-Stack Dev",
     type: "website",
   },
 };
